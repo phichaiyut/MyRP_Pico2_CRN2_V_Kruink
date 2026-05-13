@@ -104,7 +104,7 @@ void SerialServoControl() {
 
 void Servo(int x, int y, int z) {
   MotorStop();
-  int a[] = {x, y, z}, s[] = {Servo0, Servo10, Servo0};
+  int a[] = {x, y, z}, s[] = {Servo1, Servo10, Servo0};
   for (int i = 0; i < 3; i++) Servo(s[i], pos[i] = a[i]);
   delay(100);
 }
@@ -112,7 +112,7 @@ void Servo(int x, int y, int z) {
 void Servo(int target1, int target2, int target3, int spd) {
   MotorStop();
   int target[3] = {target1, target2, target3};
-  int sv[3] = {Servo0, Servo10, Servo0};
+  int sv[3] = {Servo1, Servo10, Servo0};
 
   while (pos[0] != target[0] || pos[1] != target[1] || pos[2] != target[2]) {
     for (int i = 0; i < 3; i++) {

@@ -5,7 +5,7 @@ void Setting() {
 
 
   clampSensorValueF(80, 900);   //สำหรับกรองค่า  calibrate
-  clampSensorValueB(500, 900);  //สำหรับกรองค่า  calibrate
+  clampSensorValueB(200, 900);  //สำหรับกรองค่า  calibrate
   clampSensorValueC(0, 1000);  //สำหรับกรองค่า  calibrate
 
   /******************** LINE SENSOR CONFIG ********************/

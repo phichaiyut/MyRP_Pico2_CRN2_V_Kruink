@@ -13,15 +13,15 @@ void setup() {
   set_motor();
   Setting();
   //_______________
-  S0_trim(0);
-  S1_trim(0);
-  S10_trim(0);
+  S0_trim(0); //ตั้งค่าองศา แขนด้านขวา
+  S1_trim(0); //ตั้งค่าองศา ขึ้น - ลง
+  S10_trim(0); //ตั้งค่าองศา แขนด้านซ้าย
   S28_trim(0);
   //__________________
+  arm_down_open();
+  // arm_up_open();
   // arm_down_open();
-  arm_up_open();
-  // arm_down_open();
-  // arm_up_close();
+  arm_up_close();
 
 
   sw();

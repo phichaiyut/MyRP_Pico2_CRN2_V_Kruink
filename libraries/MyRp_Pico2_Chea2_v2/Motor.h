@@ -181,14 +181,12 @@ if (BaseSpeed <= 10) {
 void FD(int Speed, int time_ms) {
   BaseSpeed = Speed;
   InitialSpeed();
-
   Move(LeftBaseSpeed, RightBaseSpeed, time_ms);
 }
 
 void BK(int Speed, int time_ms) {
   BaseSpeed = Speed;
   InitialSpeed();
-
   Move(-BackLeftBaseSpeed, -BackRightBaseSpeed, time_ms);
 }
 

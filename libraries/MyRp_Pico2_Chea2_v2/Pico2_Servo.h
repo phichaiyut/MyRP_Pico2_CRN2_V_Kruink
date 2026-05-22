@@ -38,16 +38,16 @@ void S28_trim(int _s28) {
 // ฟังก์ชันควบคุมเซอร์โว
 void Servo(int servo, int angle) {      
   if (servo == 10) { 
-    Servo_10.attach(Servo10, 600, 2400);
+    Servo_10.attach(Servo10, 500, 2500);
     Servo_10.write(constrain(angle + Servo_tim10, 0, 180));        
   } else if (servo == 0) {
-    Servo_0.attach(Servo0, 600, 2400);
+    Servo_0.attach(Servo0, 500, 2500);
     Servo_0.write(constrain(180 - angle - Servo_tim0, 0, 180));        
   } else if (servo == 1) {
-    Servo_1.attach(Servo1, 600, 2400);
+    Servo_1.attach(Servo1, 500, 2500);
     Servo_1.write(constrain(angle + Servo_tim1, 0, 180));        
   } else if (servo == 28) {
-    Servo_28.attach(Servo28, 600, 2400);
+    Servo_28.attach(Servo28, 500, 2500);
     Servo_28.write(constrain(angle + Servo_tim28, 0, 180));      
   }
 }

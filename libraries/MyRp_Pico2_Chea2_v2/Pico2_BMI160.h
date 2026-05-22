@@ -37,11 +37,14 @@ void SetRobotAngle() {
 
 float kpHold = 2.5;
 float kdHold = 1.2;
+float kpFHold = 4.5;
+float kdFHold = 9.0;
 float kpBHold = 2.5;
 float kdBHold = 1.2;
 float holdAngle = 0;
 float prevErrHold = 0;
 float prevErrHoldB = 0;
+
 void HoldAngle() {
   float error = current_degree - gyroZ();
   // wrap -180 ถึง 180
@@ -78,8 +81,8 @@ void HoldAngleF() {
   if (error > 180) error -= 360;
   else if (error < -180) error += 360;
   float d = error - prevErrHoldB;
-  int power = (error * kpBHold) + (d * kdBHold);
-  power = constrain(power, -50, 50);   // แรงหมุน
+  int power = (error * kpFHold) + (d * kdFHold);
+  power = constrain(power, -10, 10);   // แรงหมุน
   Motor(power, -power);   // หมุนอยู่กับที่
   prevErrHoldB = error;
 }
@@ -120,7 +123,7 @@ void SetGB(int totalTime) {
 /* ---------- spin / turn ---------- */
 
 void spinDegree(int Speed, int relative_degree) {
-  int min_speed = 7;
+  int min_speed = 10;
   int max_speed = Speed;
   float kp = 0.9;
   float kd = 0.15;
@@ -526,30 +529,79 @@ void TLBG(int spd, int Angle) {turnDegreeB(spd, abs(Angle));}
 void TRBG(int spd, int Angle) {turnDegreeB(spd, -abs(Angle));}
 
 
+
+void ToCenterLG() {
+   BZon();
+    for(int i = 0; i < 20; i++) {
+     RunG(tct);
+     }
+    while (1) {
+      RunG(tct);
+      ReadCalibrateC();
+      if (C[CCL] >= RefC) {
+        Motor(-tct, -tct);
+        delay(5);
+        MotorStop();
+        BZoff();
+        break;
+      }
+    }
+}
+void ToCenterRG() {
+   BZon();
+    for(int i = 0; i < 20; i++) {
+     RunG(tct);
+     }
+    while (1) {
+      RunG(tct);
+      ReadCalibrateC();
+      if (C[CCR] >= RefC) {
+        Motor(-tct, -tct);
+        delay(5);
+        MotorStop();
+        BZoff();
+        break;
+      }
+    }
+}
+
+void BackCenterG() {
+  BZon();
+  for(int i = 0; i < 20; i++) {
+     RunGB(bct);
+     }
+  while (1) {
+    RunGB(bct);
+    ReadCalibrateC();
+    if (C[CCL] >= RefC || C[CCR] >= RefC) {
+      Motor(bctL, bctR);
+      delay(5);
+      MotorStop();
+      BZoff();
+      break;
+    }
+  }
+}
+
 /* ---------- track select (gyro) ---------- */
 
 void TrackSelectG(int spd, char select) {
-  if (select == 'L' || select == 'l') {
+  if (select == 'l') {
     spinDegree(-90);
-    return;
-  }
-
-  if (select == 'R' || select == 'r') {
+  } else if(select == 'L') {
+    ToCenterRG();
+    spinDegree(-90);
+  } else if ( select == 'r') {
     spinDegree(90);
-    return;
-  }
-
-  if (select == 'q' || select == 'Q') {
+  }else if ( select == 'R') {
+    ToCenterRG();
+    spinDegree(90);
+  } 
+   else if (select == 'q' || select == 'Q') {
     turnDegree(-90);
-    return;
-  }
-
-  if (select == 'e' || select == 'E') {
+  }else if (select == 'e' || select == 'E') {
     turnDegree(90);
-    return;
-  }
-
-  if (select == 'p' || select == 'P') {
+  } else if (select == 'p' || select == 'P') {
     BZon();
     ReadCalibrateF();
     while (1) {
@@ -564,17 +616,14 @@ void TrackSelectG(int spd, char select) {
       if (F[0] < Ref && F[7] < Ref) break;
     }
     BZoff();
-    return;
-  }
-
-  if (select == 'c' || select == 'C') {
+  } else if (select == 'c' || select == 'C') {
     BZon();
     for(int i = 0; i < 20; i++) {
      RunG(spd);
      }
     while (1) {
       RunG(spd);
-      ReadSensor();
+      ReadCalibrateC();
       if (C[CCL] >= RefC || C[CCR] >= RefC) {
         Motor(-spd, -spd);
         delay(5);
@@ -583,34 +632,27 @@ void TrackSelectG(int spd, char select) {
         break;
       }
     }
-    return;
   }
-
   SetG(100);
 }
 
 void TrackSelectGB(int spd, char select) {
-  if (select == 'L' || select == 'l') {
+  if ( select == 'l') {
     spinDegree(-90);
-    return;
+  }else if (select == 'L' ) {
+    BackCenterG();
+    spinDegree(-90);
   }
-
-  if (select == 'R' || select == 'r') {
+   else if ( select == 'r') {
     spinDegree(90);
-    return;
-  }
-
-  if (select == 'q' || select == 'Q') {
+  }else if (select == 'R' ) {
+    BackCenterG();
+    spinDegree(90);
+  } else if (select == 'q' || select == 'Q') {
     turnDegreeB(90);
-    return;
-  }
-
-  if (select == 'e' || select == 'E') {
+  } else if (select == 'e' || select == 'E') {
     turnDegreeB(-90);
-    return;
-  }
-
-  if (select == 'p' || select == 'P') {
+  } else if (select == 'p' || select == 'P') {
     BZon();
     ReadCalibrateB();
     while (1) {
@@ -625,17 +667,14 @@ void TrackSelectGB(int spd, char select) {
       if (B[0] < Ref && B[7] < Ref) break;
     }
      BZoff();
-    return;
-  }
-
-  if (select == 'c' || select == 'C') {
+  } else if (select == 'c' || select == 'C') {
     BZon();
     for(int i = 0; i < 20; i++) {
      RunGB(spd);
      }
     while (1) {
       RunGB(spd);
-      ReadSensor();
+      ReadCalibrateC();
       if (C[CCL] >= RefC || C[CCR] >= RefC) {
         Motor(spd, spd);
         delay(5);
@@ -644,10 +683,10 @@ void TrackSelectGB(int spd, char select) {
         break;
       }
     }
-    return;
+  }else{
+    SetGB(100);
   }
-
-  SetGB(100);
+  
 }
 
 void FFBG(int Speed, char select) {

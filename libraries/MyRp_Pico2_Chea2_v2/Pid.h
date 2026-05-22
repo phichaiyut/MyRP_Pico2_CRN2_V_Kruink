@@ -361,6 +361,17 @@ void BBtimer(int baseSpeed, int totalTime) {
   while (millis() <= endTime) PIDB(BackLeftBaseSpeed, BackRightBaseSpeed, PID_KP_Back, PID_KD_Back);
 }
 
+void lf(int totalTime) {
+  unsigned long endTime = millis() + totalTime;
+  while (millis() <= endTime) PIDF(0,0, 0.015, 0.30);
+}
+
+void lb(int totalTime) {
+  unsigned long endTime = millis() + totalTime;
+  while (millis() <= endTime) PIDB(0,0, 0.015, 0.30);
+}
+
+
 
 void FFcm(int Speed, float distance) {
   BaseSpeed = Speed;
@@ -462,7 +473,7 @@ void ToCenter() {
   BZon();
   ModeToCenter();
   //   Motor(tctL, tctR);
-  delay(20);
+  // delay(20);
   while (1) {
     ModeToCenterLine();
     //  Motor(tctL, tctR);
@@ -859,11 +870,11 @@ void TrackSelectF(int spd, char x) {
   } else if (x == 'l' || x == 'L') {
     ToCenter();
     SpinL();
-    FFtimer(0, spd+10);
+    lf(tspd);
   } else if (x == 'r' || x == 'R') {
     ToCenter();
     SpinR();
-    FFtimer(0, spd+10);
+    lf(tspd);
   } else if (x == 'q' || x == 'Q') {
     BZon();
     while (1) {
@@ -876,7 +887,7 @@ void TrackSelectF(int spd, char x) {
       }
     }
     TurnLeft();
-    FFtimer(0, spd+10);
+    lf(50);
   } else if (x == 'e' || x == 'E') {
     BZon();
     while (1) {
@@ -889,17 +900,17 @@ void TrackSelectF(int spd, char x) {
       }
     }
     TurnRight();
-    FFtimer(0, spd+10);
+    lf(tspd);
   } else if (x == 'c' || x == 'C') {
     ToCenter();
   } else if (x == 'd' || x == 'D') {
     ToCenter();
     SpinR_B();
-    BBtimer(0, spd+10);
+    lb(tspd);
   } else if (x == 'a' || x == 'A') {
     ToCenter();
     SpinL_B();
-    BBtimer(0, spd+10);
+    lb(tspd);
   } else if (x == 'b' || x == 'B') {
     BZon();
     ModeToCenter();
@@ -909,10 +920,10 @@ void TrackSelectF(int spd, char x) {
       ModeToCenterLine();
       ReadCalibrateB();
       if ((B[0] > Ref || B[7] > Ref)) {
-        Motor(-LeftBaseSpeed, -RightBaseSpeed);
-        delay(50);
         Motor(-10, -10);
         delay(10);
+        Motor(-1, -1);
+        delay(1);
         MotorStop();
         BZoff();
         break;
@@ -954,21 +965,21 @@ void TrackSelectB(int spd, char x) {
   } else if (x == 'l' || x == 'L') {
     BackCenter();
     SpinL();
-    FFtimer(0, spd+10);
+    lf(tspd);
   } else if (x == 'r' || x == 'R') {
     BackCenter();
     SpinR();
-    FFtimer(0, spd+10);
+    lf(tspd);
   } else if (x == 'c' || x == 'C') {
     BackCenter();
   } else if (x == 'd' || x == 'D') {
     BackCenter();
     SpinR_B();
-    BBtimer(0, spd+10);
+    lb(tspd);
   } else if (x == 'a' || x == 'A') {
     BackCenter();
     SpinL_B();
-    BBtimer(0, spd+10);
+    lb(tspd);
   } else if (x == 'e' || x == 'E') {
     BZon();
     while (1) {
@@ -981,7 +992,7 @@ void TrackSelectB(int spd, char x) {
       }
     }
     TurnLeft_B();
-    BBtimer(0, spd);
+    lb(tspd);
   } else if (x == 'q' || x == 'Q') {
     BZon();
     while (1) {
@@ -994,7 +1005,7 @@ void TrackSelectB(int spd, char x) {
       }
     }
     TurnRight_B();
-    BBtimer(0, spd+10);
+    lb(tspd);
   } else if (x == 'b' || x == 'B') {
     BZon();
     // Motor(-BackLeftBaseSpeed, -BackRightBaseSpeed);
@@ -1004,10 +1015,10 @@ void TrackSelectB(int spd, char x) {
       ModeToCenterBackLine();
       ReadCalibrateF();
       if ((F[0] > Ref || F[7] > Ref)) {
-        Motor(BackLeftBaseSpeed, BackRightBaseSpeed);
-        delay(50);
         Motor(10, 10);
         delay(10);
+        Motor(1, 1);
+        delay(1);
         MotorStop();
         BZoff();
         break;
@@ -1500,14 +1511,14 @@ void BalanceF(int Counter) {
       ReadCalibrateF();
       if (F[0] > Ref) {
         while (1) {
-          Motor(0, 5);
+          Motor(0, 10);
           ReadCalibrateF();
           if (F[7] > Ref) { MotorStop(); break; }
         }
       }
       if (F[7] > Ref) {
         while (1) {
-          Motor(5, 0);
+          Motor(10, 0);
           ReadCalibrateF();
           if (F[0] > Ref) { MotorStop(); break; }
         }
@@ -1531,14 +1542,14 @@ void BalanceB(int Counter) {
       ReadCalibrateB();
       if (B[0] > Ref) {
         while (1) {
-          Motor(0, -5);
+          Motor(0, -10);
           ReadCalibrateB();
           if (B[7] > Ref) { MotorStop(); break; }
         }
       }
       if (B[7] > Ref) {
         while (1) {
-          Motor(-5, 0);
+          Motor(-10, 0);
           ReadCalibrateB();
           if (B[0] > Ref) { MotorStop(); break; }
         }
@@ -1668,6 +1679,7 @@ void bbt(int speed, int totaltime, char select) { BBtimer(speed, totaltime, sele
 void ffcm(int speed, float distance, char select) {FFcm(speed, distance, select);}
 void bbcm(int speed, float distance, char select) {BBcm(speed, distance, select);}
 
+
 void ff(int speed, char select) { FF(speed, select); }
 void bb(int speed, char select) { BB(speed, select); }
 
@@ -1712,3 +1724,4 @@ void balanceb(int c) { BalanceB(c); }
 
 void setf(int c) { SetF(c); }
 void setb(int c) { SetB(c); }
+

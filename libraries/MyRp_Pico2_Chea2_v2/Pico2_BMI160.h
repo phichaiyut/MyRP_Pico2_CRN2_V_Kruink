@@ -632,8 +632,10 @@ void TrackSelectG(int spd, char select) {
         break;
       }
     }
+  }else {
+     SetG(100);
   }
-  SetG(100);
+  
 }
 
 void TrackSelectGB(int spd, char select) {

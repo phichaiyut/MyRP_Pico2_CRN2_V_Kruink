@@ -74,12 +74,12 @@ void clampSensorValueB(int x, int y){
 void ReadCalibrateF() {
   ReadF();
   for (int i = 0; i < NUM_SENSORS; i++) {
-    F[i] = constrain(F[i], robot.sensorMinA[i], robot.sensorMaxA[i]);
-    int x;
+    F[i] = constrain(F[i], sensorMinA[i], sensorMaxA[i]);
+    int16_t x;
     if (LineColor == 0)
-      x = map(F[i], robot.sensorMinA[i], robot.sensorMaxA[i], 1000, 0);
+      x = map(F[i], sensorMinA[i], sensorMaxA[i], 1000, 0);
     else
-      x = map(F[i], robot.sensorMinA[i], robot.sensorMaxA[i], 0, 1000);
+      x = map(F[i], sensorMinA[i], sensorMaxA[i], 0, 1000);
     if (x < FRONT_MIN)   x = 0;
     if (x > FRONT_MAX)  x = 1000;
     // if (x < 0)    x = 0;
@@ -94,12 +94,12 @@ void ReadCalibrateC() {
   ReadC();
   
   for (int i = 0; i < 2; i++) {
-    C[i] = constrain(C[i], robot.sensorMinC[i], robot.sensorMaxC[i]);
-    int x;
+    C[i] = constrain(C[i], sensorMinC[i], sensorMaxC[i]);
+    int16_t x;
     if (LineColor == 0)
-      x = map(C[i], robot.sensorMinC[i], robot.sensorMaxC[i], 1000, 0);
+      x = map(C[i], sensorMinC[i], sensorMaxC[i], 1000, 0);
     else
-      x = map(C[i], robot.sensorMinC[i], robot.sensorMaxC[i], 0, 1000);
+      x = map(C[i], sensorMinC[i], sensorMaxC[i], 0, 1000);
     if (x < CENTER_MIN)   x = 0;
     if (x > CENTER_MAX)  x = 1000;
     // if (x < 0)    x = 0;
@@ -113,12 +113,12 @@ void ReadCalibrateB() {
   ReadB();
 
   for (int i = 0; i < NUM_SENSORS; i++) {
-    B[i] = constrain(B[i], robot.sensorMinB[i], robot.sensorMaxB[i]);
-    int x;
+    B[i] = constrain(B[i], robot.sensorMinB[B_PIN[i]], robot.sensorMaxB[B_PIN[i]]);
+    int16_t x;
     if (LineColor == 0)
-      x = map(B[i], robot.sensorMinB[i], robot.sensorMaxB[i], 1000, 0);
+      x = map(B[i], robot.sensorMinB[B_PIN[i]], robot.sensorMaxB[B_PIN[i]], 1000, 0);
     else
-      x = map(B[i], robot.sensorMinB[i], robot.sensorMaxB[i], 0, 1000);
+      x = map(B[i], robot.sensorMinB[B_PIN[i]], robot.sensorMaxB[B_PIN[i]], 0, 1000);
     if (x < BACK_MIN)   x = 0;
     if (x > BACK_MAX)  x = 1000;
     // if (x < 0)    x = 0;

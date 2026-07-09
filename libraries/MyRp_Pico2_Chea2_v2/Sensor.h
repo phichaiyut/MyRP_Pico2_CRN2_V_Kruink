@@ -257,7 +257,6 @@ void Serial_AllSensor() {
 void SerialCalibrate_AllSensor() {
   while (1) {
     ReadSensor();
-
     Serial.print("F : ");
     for (int i = 0; i < NUM_SENSORS; i++) {
       Serial.print(F[i]);

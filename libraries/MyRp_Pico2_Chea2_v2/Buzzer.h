@@ -1,4 +1,4 @@
-#define ToNe 2700
+#define ToNe 3000
 #define buzzer_pin 9
 
 void Beep(int delayb) {

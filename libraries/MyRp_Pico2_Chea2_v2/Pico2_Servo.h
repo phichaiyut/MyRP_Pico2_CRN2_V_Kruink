@@ -45,7 +45,7 @@ void Servo(int servo, int angle) {
     Servo_0.write(constrain(180 - angle - Servo_tim0, 0, 180));        
   } else if (servo == 1) {
     Servo_1.attach(Servo1, 500, 2500);
-    Servo_1.write(constrain(angle + Servo_tim1, 0, 180));        
+    Servo_1.write(constrain(180 - angle - Servo_tim1, 0, 180));        
   } else if (servo == 28) {
     Servo_28.attach(Servo28, 500, 2500);
     Servo_28.write(constrain(angle + Servo_tim28, 0, 180));      

@@ -20,7 +20,7 @@ void Setting() {
   SetToCenterSpeed(20);  // ความเร็วเข้ากลางหุ่น
   set_slow_kp_kd(0.005 , 0.05, 0.005, 0.05); //kp kd ของความเร็วช้าเข้ากลางหุ่น
   /******************** TURN & SPEED CONFIG ********************/
-  SetTurnSpeed(70);  // ความเร็วเลี้ยวหุ่น (l L ) (r R)
+  SetTurnSpeed(60);  // ความเร็วเลี้ยวหุ่น (l L ) (r R)
 
 
   TurnSpeedLeft(10, 100, 60);   // เลี้ยวซ้าย (q Q)

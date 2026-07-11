@@ -581,7 +581,9 @@ void TurnLeft() {
   while (1) {
     Motor(-LTurnSpdL, LTurnSpdR);
     ReadCalibrateF();
-    if (F[2] >= Ref) { MotorStop(); break; }
+    if (F[2] >= Ref) { 
+      //MotorStop(); 
+      break; }
   }
 }
 
@@ -591,7 +593,9 @@ void TurnRight() {
   while (1) {
     Motor(RTurnSpdL, -RTurnSpdR);
     ReadCalibrateF();
-    if (F[5] >= Ref) { MotorStop(); break; }
+    if (F[5] >= Ref) { 
+      //MotorStop(); 
+      break; }
   }
 }
 

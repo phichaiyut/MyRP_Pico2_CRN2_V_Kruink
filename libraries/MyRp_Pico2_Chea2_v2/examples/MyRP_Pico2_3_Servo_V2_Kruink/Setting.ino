@@ -23,8 +23,8 @@ void Setting() {
   SetTurnSpeed(60);  // ความเร็วเลี้ยวหุ่น (l L ) (r R)
 
 
-  TurnSpeedLeft(10, 100, 60);   // เลี้ยวซ้าย (q Q)
-  TurnSpeedRight(100, 10, 60);  // เลี้ยวขวา (e E)
+  TurnSpeedLeft(15, 100, 60);   // เลี้ยวซ้าย (q Q)
+  TurnSpeedRight(100, 15, 60);  // เลี้ยวขวา (e E)
 
 
   ModeSpdPID(0, 100, -5);  // โหมดควบคุมความเร็ว

@@ -36,9 +36,9 @@ void SetRobotAngle() {
 }
 
 float kpHold = 2.5;
-float kdHold = 1.2;
+float kdHold = 1.5;
 float kpFHold = 2.5;
-float kdFHold = 1.2;
+float kdFHold = 1.5;
 float kpBHold = 2.5;
 float kdBHold = 1.2;
 float holdAngle = 0;
@@ -565,6 +565,24 @@ void ToCenterRG() {
     }
 }
 
+void ToCenterLRG() {
+   BZon();
+    for(int i = 0; i < 20; i++) {
+     RunG(tct);
+     }
+    while (1) {
+      RunG(tct);
+      ReadCalibrateC();
+      if (C[CCR] >= RefC) {
+        Motor(-tct, -tct);
+        delay(5);
+        MotorStop();
+        BZoff();
+        break;
+      }
+    }
+}
+
 void BackCenterG() {
   BZon();
   for(int i = 0; i < 20; i++) {
@@ -632,6 +650,31 @@ void TrackSelectG(int spd, char select) {
         break;
       }
     }
+  }else if (select == 'b' || select == 'B') {
+    BZon();
+    for(int i = 0; i < 20; i++) {
+     RunG(tct);
+     }
+    while (1) {
+      RunG(tct);
+      ReadCalibrateC();
+      if (C[CCL] >= RefC || C[CCR] >= RefC ) {
+        break;
+      }
+    }
+     while (1) {
+      RunG(tct);
+      ReadCalibrateB();
+      if ((B[0] > Ref || B[7] > Ref)) {
+        Motor(-10, -10);
+        delay(10);
+        Motor(-1, -1);
+        delay(1);
+        MotorStop();
+        BZoff();
+        break;
+      }
+    }
   } else if(select == 's' || select == 'S'){
     Motor(-10, -10);
     delay(10);
@@ -692,7 +735,32 @@ void TrackSelectGB(int spd, char select) {
         break;
       }
     }
-  } else if(select == 's' || select == 'S'){
+  } else if (select == 'b' || select == 'B') {
+    BZon();
+    for(int i = 0; i < 20; i++) {
+     RunGB(tct);
+     }
+    while (1) {
+      RunGB(tct);
+      ReadCalibrateC();
+      if (C[CCL] >= RefC || C[CCR] >= RefC ) {
+        break;
+      }
+    }
+     while (1) {
+      RunGB(tct);
+      ReadCalibrateB();
+      if ((B[0] > Ref || B[7] > Ref)) {
+        Motor(10, 10);
+        delay(10);
+        Motor(1, 1);
+        delay(1);
+        MotorStop();
+        BZoff();
+        break;
+      }
+    }
+  }else if(select == 's' || select == 'S'){
     Motor(10, 10);
     delay(10);
     Motor(1, 1);

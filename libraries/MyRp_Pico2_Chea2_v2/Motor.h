@@ -16,6 +16,17 @@ void MotorStop(int t){
     Beep(t);
 }
 
+void MotorShot(){
+
+    digitalWrite(AIN1, HIGH);
+    digitalWrite(AIN2, HIGH);
+    digitalWrite(BIN1, HIGH);
+    digitalWrite(BIN2, HIGH);
+    analogWrite(PWMA, 4095);
+    analogWrite(PWMB, 4095);
+
+
+}
 
 int BaseSpeed, LeftBaseSpeed, RightBaseSpeed, BackLeftBaseSpeed, BackRightBaseSpeed;
 float PID_KP_Front, PID_KD_Front;

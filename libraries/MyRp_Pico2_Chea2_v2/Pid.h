@@ -423,7 +423,7 @@ void FFcm(int Speed, float distance) {
       if (traveled_distance >= distance) break;
     }
     PIDF(LeftBaseSpeed, RightBaseSpeed, PID_KP_Front, PID_KD_Front);
-    delayMicroseconds(80);
+    //delayMicroseconds(80);
   }
 }
 
@@ -450,7 +450,7 @@ void BBcm(int Speed, float distance) {
       if (traveled_distance >= distance) break;
     }
     PIDB(BackLeftBaseSpeed, BackRightBaseSpeed, PID_KP_Back, PID_KD_Back);
-    delayMicroseconds(80);
+    //delayMicroseconds(80);
   }
 }
 
@@ -593,8 +593,7 @@ void TurnRight() {
   while (1) {
     Motor(RTurnSpdL, -RTurnSpdR);
     ReadCalibrateF();
-    if (F[5] >= Ref) { 
-      //MotorStop(); 
+    if (F[5] >= Ref) { //MotorStop(); 
       break; }
   }
 }

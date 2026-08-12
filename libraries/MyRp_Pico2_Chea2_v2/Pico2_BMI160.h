@@ -18,17 +18,17 @@ float previous_errorGB = 0;
 
 /* ---------- sensor setup ---------- */
 
-void resetAngles() {
-  robot.resetAngles();
-}
+// void resetAngles() {
+//   robot.resetAngles();
+// }
 
-void setAngleOffset() {
-  robot.resetAngles();
-}
+// void setAngleOffset() {
+//   robot.resetAngles();
+// }
 
 
 float gyroZ(){
-    return robot.gyroZ();
+    return robot.gyro('z');
 }
 
 void SetRobotAngle() {

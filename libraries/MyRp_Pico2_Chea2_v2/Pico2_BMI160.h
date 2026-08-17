@@ -28,7 +28,8 @@ float previous_errorGB = 0;
 
 
 float gyroZ(){
-    return robot.gyro('z');
+    //return robot.gyro('z');
+    return robot.gyroZ();
 }
 
 void SetRobotAngle() {
